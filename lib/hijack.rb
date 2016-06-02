@@ -1,5 +1,10 @@
 require "hijack/version"
 
 module Hijack
-  # Your code goes here...
+  LIBPATH = File.expand_path(File.join('..', 'hijack'), __FILE__)
 end
+
+%w(
+  page
+  page_loader
+).each { |f| require File.join(Hijack::LIBPATH, f) }

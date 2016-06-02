@@ -35,5 +35,7 @@ build/
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
 
-# we do not want to disclose the hijacked website
+# we do not want to disclose hijacked websites
 /website/
+.byebug_history
+/log/*.log
