@@ -1,3 +1,17 @@
 #!/usr/bin/env ruby
 
+$: << File.join('.', 'lib')
 require 'hijack'
+
+
+Hijack::Config.configure do
+  |conf|
+  conf.base_url = 'http://www.scelsi.it'
+  conf.root_url = 'index.php'
+  conf.title_tag = 'div.claim_phrase'
+  conf.content_tag = 'div.uk-width-medium-3-4'
+end
+
+w = Hijack::Website.new
+
+w.process
