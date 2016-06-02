@@ -9,7 +9,7 @@ module Hijack
 
     def initialize(u, p = nil)
       @uri = u
-      @base = p ? p.base : u
+      @base = p ? p : u
       @html_content = suck
       @checksum = calculate_checksum
       @linked_from = []
@@ -39,46 +39,13 @@ module Hijack
       links_on_page - MANDATORY_EXCLUDES - [ self.uri ] - exclude
     end
 
-#     links_to_visit.each do
-#       |l|
-#       begin
-#         p = Page.new(l, self)
-#         p.build_tree
-#         self.children << p
-#       rescue URI::InvalidURIError => msg
-#         # log.warn(msg)
-#       end
-#     end
-#     self.children
-#   end
-
   private
 
+    include Hijack::Helpers::URI
+
     def suck
-      Nokogiri::HTML(open(normalized_uri)) { |config| config.noblanks }
-    end
-
-    PROTO_REGEXP = Regexp.compile(/\A(http:\/\/|https:\/\/|ftp:\/\/)/)
-
-    def normalized_uri
-      res = self.uri
-      res = [self.base, self.uri].join('/') unless self.uri =~ PROTO_REGEXP
-      res
-    end
-
-    def stripped_uri
-      res = ''
-      suri = self.uri.sub(PROTO_REGEXP, '')
-      p = suri.index('/')
-      #
-      # if p is nil or p is at EOS it means that either the uri ends with a
-      # slash or it has no slash and no following link so we should simply
-      # return an empty string
-      #
-      if p && p != (self.uri.size - 1)
-        res = suri[p+1..-1]
-      end
-      res
+      nuri = normalize(self.uri, self.base)
+      Nokogiri::HTML(open(nuri)) { |config| config.noblanks }
     end
 
     def calculate_checksum
@@ -86,7 +53,11 @@ module Hijack
     end
 
     def links_on_page
-      self.html_content.css('a').map { |aref| aref.attributes['href'].value }.uniq
+      self.html_content.css('a').map do
+        |aref|
+        href = aref.attributes['href']
+        href.value if href
+      end.compact.uniq
     end
 
   end

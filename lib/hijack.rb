@@ -5,6 +5,7 @@ module Hijack
 end
 
 %w(
+  helpers
   hijack_logger
   page
   page_loader

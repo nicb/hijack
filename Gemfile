@@ -3,4 +3,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in hijack.gemspec
 gemspec
 
-gem 'byebug', group: :test
+group :test do
+  gem 'byebug'
+  gem 'forgery'
+end
