@@ -15,8 +15,7 @@ module Hijack
     # sucks up an entire website, or up to +limit+ pages.
     #
     def suck(limit = nil)
-      start = full_uri(self.root)
-      self.pages << Page.new(start, self.base_path)
+      self.pages << Page.new(self.root, self.base_path)
       inner_suck(self.pages.first, limit)
     end
 
@@ -35,19 +34,18 @@ module Hijack
       return if enough?(limit)
       p.links.each do
         |l|
-        vl = full_uri(l)
         begin
-          if (fp = self.find_page(vl))
+          if (fp = self.find_page(l))
             fp.linked_from << p
           else
-            np =  Page.new(vl, self.base_path)
+            np =  Page.new(l, self.base_path)
             np.linked_from << p
             self.pages << np
             return if enough?(limit)
             inner_suck(np, limit)
           end
         rescue OpenURI::HTTPError, URI::InvalidURIError => e
-          Hijack::Log.warn(vl + ': ' + e.message)
+          Hijack::Log.warn(l + ': ' + e.message)
         end
       end
     end

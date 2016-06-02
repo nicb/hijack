@@ -30,13 +30,10 @@ module Hijack
     #
     # builds the list of links for this page.
     #
-    MANDATORY_EXCLUDES = [ 'index.php', 'index.html', '#' ] # avoid links back to root nodes and empty labels
+    MANDATORY_EXCLUDES = Regexp.compile(/(index.php|index.html|#|mailto:)/) # avoid links back to root nodes and empty labels
 
     def links(exclude = [])
-      #
-      # avoid recursions at all costs
-      #
-      links_on_page - MANDATORY_EXCLUDES - [ self.uri ] - exclude
+      links_on_page - excluded_uris(exclude)
     end
 
   private
@@ -58,6 +55,22 @@ module Hijack
         href = aref.attributes['href']
         href.value if href
       end.compact.uniq
+    end
+
+    #
+    # avoid recursions at all costs
+    #
+    def excluded_uris(exclude)
+      m_e = exclude
+      links_on_page.each do
+        |lop|
+        if lop.match(MANDATORY_EXCLUDES)
+          m_e << lop
+          next
+        end
+        m_e << lop unless same_base?(lop, self.base)
+      end
+      m_e = m_e.compact.uniq
     end
 
   end

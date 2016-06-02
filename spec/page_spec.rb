@@ -6,7 +6,6 @@ describe Hijack::Page do
     @remote_uris =
     {
        'http://www.scelsi.it' => 'Fondazione Isabella Scelsi',
-       'https://www.google.com' => 'Google',
        'https://www.w3.org' => 'World Wide Web Consortium (W3C)',
     }
   end
@@ -56,17 +55,5 @@ describe Hijack::Page do
       expect(checksums.include?(c2)).to be(true)
     end
   end
-
-# #
-# # the +build_tree+ method is potentially bloating so we run it for a small website only
-# #
-# it 'builds the tree for each page' do
-#   ruri = 'http://www.scelsi.it'
-#   expect((p = Hijack::Page.new(ruri)).class).to be(Hijack::Page)
-#   expect(p.html_content.nil?).to be(false)
-#   expect(p.children.empty?).to be(true)
-#   p.build_tree
-#   expect(p.children.empty?).to be(false)
-# end
 
 end

@@ -6,8 +6,7 @@ class TestObject
   attr_reader :base, :page
 
   def initialize
-    proto = Forgery(:basic).boolean ? 'https:/' : 'http:/'
-    @base = [ proto, Forgery(:internet).domain_name ].join('/')
+    @base = generate_base
     sfx =  Forgery(:basic).boolean ? 'html' : 'php'
     @page = [ build_page, sfx ].join('.')
   end
@@ -17,6 +16,14 @@ class TestObject
   end
 
 private
+
+  def generate_base
+    protos = [ 'http://', 'https://', 'ftp://', 'mailto:' ]
+    idx = Forgery(:basic).number(at_least: 0, at_most: protos.size-1)
+    proto = protos[idx]
+    url_method = proto == 'mailto:' ? :email_address : :domain_name
+    [ proto, Forgery(:internet).send(url_method) ].join
+  end
 
   def build_page
     level = Forgery(:basic).number(:at_least => 1, :at_most => 7)
@@ -47,6 +54,15 @@ describe 'Hijack::Helpers::URI#normalize' do
       to = TestObject.new
       expect(normalize(to.full_uri, to.base)).to eq(to.full_uri), "n.#{n} (base: #{to.base}, page: #{to.page})"
     end
+    #
+    # let's make sure that it won't put double uris
+    #
+    @num_samples.times do
+      |n|
+      to = TestObject.new
+      to2 = TestObject.new
+      expect(normalize(to.full_uri, to2.full_uri)).to eq(to.full_uri), "n.#{n} (base: #{to.base}, page: #{to.page})"
+    end
   end
 
 end
@@ -61,7 +77,7 @@ describe 'Hijack::Helpers::URI#strip' do
     @num_samples.times do
       |n|
       to = TestObject.new
-      expect(strip(to.full_uri)).to eq(to.page), "n.#{n} (base: #{to.base}, page: #{to.page})"
+      expect((res = strip(to.full_uri))).to eq([to.page, to.base]), "n.#{n} (base: #{to.base}, page: #{to.page}) != #{res}"
     end
   end
 
@@ -69,7 +85,7 @@ describe 'Hijack::Helpers::URI#strip' do
     @num_samples.times do
       |n|
       to = TestObject.new
-      expect(strip(to.base)).to eq(''), "n.#{n} (base: #{to.base})"
+      expect((res = strip(to.base))).to eq(['', to.base]), "n.#{n} (base: #{to.base}) != #{res}"
     end
   end
 
@@ -78,9 +94,52 @@ describe 'Hijack::Helpers::URI#strip' do
       |n|
       to = TestObject.new
       slashed_base = to.base + '/'
-      expect(strip(slashed_base)).to eq(''), "n.#{n} (base: #{slashed_base}, result: #{strip(slashed_base)})"
+      expect((res = strip(slashed_base))).to eq(['', slashed_base]), "n.#{n} (base: #{slashed_base}, result: #{res}) != ['', #{slashed_base}]"
     end
   end
 
 end
 
+describe 'Hijack::Helpers::URI#same_base?' do
+
+  before :example do
+    @num_samples = 50
+  end
+
+  it 'can track uris with different bases' do
+    @num_samples.times do
+      |n|
+      to0 = TestObject.new
+      to1 = TestObject.new
+      result = to0.base == to1.base
+      expect((res = same_base?(to0.full_uri, to1.full_uri))).to eq(result), "n.#{n} (0: #{to0.full_uri}, 1: #{to1.full_uri}) != #{result}"
+    end
+  end
+
+  it 'can track uris with same bases' do
+    @num_samples.times do
+      |n|
+      to = TestObject.new
+      expect((res = same_base?(to.full_uri, to.full_uri))).to eq(true), "n.#{n} (0: #{to.full_uri}, 1: #{to.full_uri}) != #{true}"
+    end
+  end
+
+  it 'can track different bases' do
+    @num_samples.times do
+      |n|
+      to0 = TestObject.new
+      to1 = TestObject.new
+      result = to0.base == to1.base
+      expect((res = same_base?(to0.full_uri, to1.base))).to eq(result), "n.#{n} (0: #{to0.full_uri}, 1: #{to1.full_uri}) != #{result}"
+    end
+  end
+
+  it 'can track same bases' do
+    @num_samples.times do
+      |n|
+      to = TestObject.new
+      expect((res = same_base?(to.full_uri, to.base))).to eq(true), "n.#{n} (0: #{to.full_uri}, 1: #{to.full_uri}) != #{true}"
+    end
+  end
+
+end
