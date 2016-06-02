@@ -5,6 +5,7 @@ module Hijack
 end
 
 %w(
+  hijack_logger
   page
   page_loader
 ).each { |f| require File.join(Hijack::LIBPATH, f) }
