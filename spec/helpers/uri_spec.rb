@@ -3,12 +3,14 @@ require 'spec_helper'
 include Hijack::Helpers::URI
 
 class TestObject
-  attr_reader :base, :page
+  attr_reader :base, :page, :sfx
+
+  SUFFIXES = [ nil, '.html', '.php', '.pdf', '.mp3' ]
 
   def initialize
     @base = generate_base
-    sfx =  Forgery(:basic).boolean ? 'html' : 'php'
-    @page = [ build_page, sfx ].join('.')
+    @sfx = SUFFIXES[Forgery(:basic).number(at_least: 0, at_most: SUFFIXES.size-1)]
+    @page = [ build_page, @sfx ].compact.join
   end
 
   def full_uri
@@ -179,6 +181,22 @@ describe 'Hijack::Helpers::URI#relative?' do
       |n|
       to = TestObject.new
       expect((res = relative?(to.page))).to eq(true), "n.#{n} 0: #{to.page} != true (#{res})"
+    end
+  end
+
+end
+
+describe 'Hijack::Helpers::URI#suffix' do
+
+  before :example do
+    @num_samples = 50
+  end
+
+  it 'returns the proper suffix' do
+    @num_samples.times do
+      |n|
+      to = TestObject.new
+      expect((res = suffix(to.full_uri))).to eq(to.sfx), "n.#{n}: '#{res}' != '#{to.sfx}' (page: '#{to.full_uri}')"
     end
   end
 

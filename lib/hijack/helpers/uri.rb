@@ -52,6 +52,13 @@ module Hijack
         base.empty?
       end
 
+      def suffix(page)
+        res = nil
+        suff_idx = page.rindex(/(\.|\/)/)
+        res = page[suff_idx..-1] if suff_idx && page[suff_idx] != '/'
+        res
+      end
+
     end
 
   end
