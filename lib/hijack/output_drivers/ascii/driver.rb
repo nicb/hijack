@@ -24,7 +24,7 @@ module Hijack
         def install_page_methods
           Hijack::Page.send(:define_method, :ascii_output) do
             |file_handle|
-            file_handle.puts "%s: %s" % [self.uri, self.title]
+            file_handle.puts "%s: %s" % [self.full_uri, self.title]
           end
         end
 

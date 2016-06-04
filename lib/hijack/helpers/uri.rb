@@ -13,19 +13,30 @@ module Hijack
       end
 
       def strip(uri)
-        res = ''
-        base = uri
-        suri = uri.sub(PROTO_REGEXP, '')
-        idx_off = uri.size - suri.size
-        p = suri.index('/')
+        res = nil
+        base = nil
         #
-        # if p is nil or p is at EOS it means that either the uri ends with a
-        # slash or it has no slash and no following link so we should simply
-        # return an empty string
+        # are we relative or absolute?
         #
-        if p && p != (suri.size - 1)
-          res = suri[p+1..-1]
-          base = uri[0..idx_off+p-1]
+        if uri =~ PROTO_REGEXP
+          suri = uri.sub(PROTO_REGEXP, '')
+          idx_off = uri.size - suri.size
+          p = suri.index('/')
+          #
+          # if p is nil or p is at EOS it means that either the uri ends with a
+          # slash or it has no slash and no following link so we should simply
+          # return an empty string
+          #
+          if p && p != (suri.size - 1)
+            res = suri[p+1..-1]
+            base = uri[0..idx_off+p-1]
+          else
+            res = ''
+            base = uri
+          end
+        else
+          res = uri
+          base = ''
         end
         [ res, base ]
       end
@@ -34,6 +45,11 @@ module Hijack
         (rest, base0) = strip(uri0)
         (rest, base1) = strip(uri1)
         base0 == base1
+      end
+
+      def relative?(uri)
+        (rest, base) = strip(uri)
+        base.empty?
       end
 
     end

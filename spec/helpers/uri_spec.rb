@@ -98,6 +98,22 @@ describe 'Hijack::Helpers::URI#strip' do
     end
   end
 
+  it 'will return bare pages and no base name if relative' do
+    @num_samples.times do
+      |n|
+      to = TestObject.new
+      expect((res = strip(to.page))).to eq([to.page, '']), "n.#{n} result: #{res} != [#{to.page}, '']"
+    end
+  end
+
+  it 'will return bare pages and no base name if relative' do
+    @num_samples.times do
+      |n|
+      to = TestObject.new
+      expect((res = strip(to.page))).to eq([to.page, '']), "n.#{n} result: #{res} != [#{to.page}, '']"
+    end
+  end
+
 end
 
 describe 'Hijack::Helpers::URI#same_base?' do
@@ -139,6 +155,30 @@ describe 'Hijack::Helpers::URI#same_base?' do
       |n|
       to = TestObject.new
       expect((res = same_base?(to.full_uri, to.base))).to eq(true), "n.#{n} (0: #{to.full_uri}, 1: #{to.full_uri}) != #{true}"
+    end
+  end
+
+end
+
+describe 'Hijack::Helpers::URI#relative?' do
+
+  before :example do
+    @num_samples = 50
+  end
+
+  it 'responds false to full uris' do
+    @num_samples.times do
+      |n|
+      to = TestObject.new
+      expect((res = relative?(to.full_uri))).to eq(false), "n.#{n}: #{to.full_uri} != false (#{res})"
+    end
+  end
+
+  it 'responds true to relative uris' do
+    @num_samples.times do
+      |n|
+      to = TestObject.new
+      expect((res = relative?(to.page))).to eq(true), "n.#{n} 0: #{to.page} != true (#{res})"
     end
   end
 

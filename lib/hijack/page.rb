@@ -36,6 +36,15 @@ module Hijack
       links_on_page - excluded_uris(exclude)
     end
 
+    #
+    # +full_uri+
+    #
+    # return the absolute uri of the page
+    #
+    def full_uri
+      normalize(self.uri, self.base)
+    end
+
   private
 
     include Hijack::Helpers::URI
@@ -68,7 +77,7 @@ module Hijack
           m_e << lop
           next
         end
-        m_e << lop unless same_base?(lop, self.base)
+        m_e << lop unless relative?(lop) || same_base?(lop, self.base)
       end
       m_e = m_e.compact.uniq
     end
