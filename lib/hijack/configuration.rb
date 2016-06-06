@@ -19,15 +19,21 @@ module Hijack
     }
 
     def initialize
+      load_defaults
+    end
+
+    def configure
+      yield(self)
+    end
+
+  private
+
+    def load_defaults
       DEFAULT_CONFIGURATION_PARAMETERS.each do
         |k, v|
         meth = k.to_s + '='
         self.send(meth, v)
       end
-    end
-
-    def configure
-      yield(self)
     end
 
   end
