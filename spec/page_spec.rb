@@ -33,7 +33,7 @@ describe Hijack::Page do
       |uri, title|
       expect((p = Hijack::Page.new(uri)).class).to be(Hijack::Page)
       expect(p.html_content.nil?).to be(false)
-      expect(p.title).to eq(title)
+      expect(p.page_title).to eq(title)
     end
   end
 

@@ -16,13 +16,43 @@ module Hijack
     end
 
     #
+    # +page_title+
+    #
+    # it returns the page title of the current page (simply delegating `Nokogiri` to do
+    # it)
+    #
+    def page_title
+      self.html_content.title
+    end
+
+    #
     # +title+
     #
-    # it returns the title of the current page (simply delegating `Nokogiri` to do
+    # it returns the actual title of the current page (simply delegating `Nokogiri` to do
     # it)
     #
     def title
-      self.html_content.title
+      self.html_content.css(Hijack::Config.title_tag).text
+    end
+
+    #
+    # +content+
+    #
+    # it returns the content of the current page (simply delegating `Nokogiri` to do
+    # it)
+    #
+    def content
+      self.html_content.css(Hijack::Config.content_tag).to_html
+    end
+
+    #
+    # +images+
+    #
+    # it returns the images of the current page (simply delegating `Nokogiri` to do
+    # it)
+    #
+    def images
+      self.html_content.css(Hijack::Config.image_tags).map { |i| i.children.first.attributes['src'].value }
     end
 
     #
