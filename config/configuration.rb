@@ -28,6 +28,10 @@ Hijack::Config.configure do
   # +image_tags+ set the tag(s) which should return image links
   #
   conf.image_tags = "#{conf.content_tag}>div.uk-thumbnail"
+  #
+  # +driver+
+  #
+  conf.driver = Hijack::OutputDrivers::Radiant::Sqlite::Driver.new
 
 end
 

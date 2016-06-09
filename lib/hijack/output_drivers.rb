@@ -6,4 +6,5 @@ end
 
 %w(
   ascii
+  radiant
 ).each { |f| require File.join(Hijack::OutputDrivers::PATH, f) }
