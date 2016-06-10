@@ -8,4 +8,5 @@ gem 'sqlite3'
 group :test do
   gem 'byebug'
   gem 'forgery'
+  gem "codeclimate-test-reporter", require: nil
 end

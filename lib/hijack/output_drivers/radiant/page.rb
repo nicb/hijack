@@ -16,12 +16,17 @@ module Hijack
       #
 
       class Page < Base
-        attr_accessor :hijacked_page
-        attr_accessor :title, :slug, :breadcrumb, :class_name, :status_id, :parent_id, :layout_id,
-                      :created_at, :updated_at, :published_at,
-                      :created_by_id, :updated_by_id,
-                      :virtual, :lock_version, :allowed_children_cache
-        attr_reader   :arel_table, :arel_manager
+
+        has_many :page_parts
+        has_many :page_fields
+
+        before_validation :set_fallback_backdrop
+
+#       attr_accessor :title, :slug, :breadcrumb, :class_name, :status_id, :parent_id, :layout_id,
+#                     :created_at, :updated_at, :published_at,
+#                     :created_by_id, :updated_by_id,
+#                     :virtual, :lock_version, :allowed_children_cache
+#       attr_reader   :arel_table, :arel_manager
 
         FALLBACK_OPTIONS =
         {
@@ -30,6 +35,8 @@ module Hijack
            parent_id: nil, layout_id: 2, created_by_id: 1, updated_by_id: nil, virtual: 'f', lock_version: 0,
            allowed_children_cache: 'Page,ArchiveDayIndexPage,ArchiveMonthIndexPage,ArchivePage,ArchiveYearIndexPage,EnvDumpPage,FileNotFoundPage,JavascriptPage,StylesheetPage',
         }
+
+
 
         def initialize(options = {})
           opts = FALLBACK_OPTIONS
