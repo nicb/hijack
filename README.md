@@ -2,6 +2,9 @@
 
 [![Join the chat at https://gitter.im/nicb/hijack](https://badges.gitter.im/nicb/hijack.svg)](https://gitter.im/nicb/hijack?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/nicb/hijack.svg?branch=master)](https://travis-ci.org/nicb/hijack)
+[![Code Climate](https://codeclimate.com/github/nicb/hijack/badges/gpa.svg)](https://codeclimate.com/github/nicb/hijack)
+[![Test Coverage](https://codeclimate.com/github/nicb/hijack/badges/coverage.svg)](https://codeclimate.com/github/nicb/hijack/coverage)
+[![Issue Count](https://codeclimate.com/github/nicb/hijack/badges/issue_count.svg)](https://codeclimate.com/github/nicb/hijack)
 [![Inline docs](http://inch-ci.org/github/nicb/hijack.svg?branch=master)](http://inch-ci.org/github/nicb/hijack)
 
 Dynamic website hijacking software
