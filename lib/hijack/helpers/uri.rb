@@ -42,8 +42,8 @@ module Hijack
       end
 
       def same_base?(uri0, uri1)
-        (rest, base0) = strip(uri0)
-        (rest, base1) = strip(uri1)
+        (_rest, base0) = strip(uri0)
+        (_rest, base1) = strip(uri1)
         base0 == base1
       end
 

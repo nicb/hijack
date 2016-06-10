@@ -2,12 +2,9 @@
 
 [![Join the chat at https://gitter.im/nicb/hijack](https://badges.gitter.im/nicb/hijack.svg)](https://gitter.im/nicb/hijack?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/nicb/hijack.svg?branch=master)](https://travis-ci.org/nicb/hijack)
+[![Inline docs](http://inch-ci.org/github/nicb/hijack.svg?branch=master)](http://inch-ci.org/github/nicb/hijack)
 
 Dynamic website hijacking software
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hijack`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
@@ -27,7 +24,8 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+1. set your configuration in `config/configuration.rb`
+2. run it with `rake hijack`
 
 ## Development
 

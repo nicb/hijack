@@ -41,7 +41,7 @@ module Hijack
             np =  Page.new(l, self.base_path)
             np.linked_from << p
             self.pages << np
-            return if enough?(limit)
+            break if enough?(limit)
             inner_suck(np, limit)
           end
         rescue OpenURI::HTTPError, URI::InvalidURIError => e
