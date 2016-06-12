@@ -31,7 +31,7 @@ Hijack::Config.configure do
   #
   # +driver+
   #
-  conf.driver = Hijack::OutputDrivers::Radiant::Sqlite::Driver.new
+  conf.driver = Hijack::OutputDrivers::Radiant::Driver.new
 
 end
 

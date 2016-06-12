@@ -55,7 +55,7 @@ describe Hijack::Website do
     end
   end
 
-  it 'can suck up an entire website and render it', :slow => true do
+  it 'can suck up an entire website and render it in ascii', :slow => true do
     (tmpfile, url) = create_stringio_configuration(@remote_uris.keys.first, 'index.php')
     @remote_uris.keys.each do
       |uri|
@@ -65,6 +65,19 @@ describe Hijack::Website do
       w.process
       expect((out = w.driver.file_handle).kind_of?(StringIO)).to be(true)
       expect(out.size).to be > 1000
+    end
+  end
+
+  it 'can suck up an entire website and render it as radiant sql pages', :slow => true do
+    (tmpfile, url) = create_radiant_configuration(@remote_uris.keys.first, 'index.php')
+    expected_min_n_of_pages = 75
+    @remote_uris.keys.each do
+      |uri|
+      expect((w = Hijack::Website.new).class).to be(Hijack::Website)
+      w.configuration_file = tmpfile
+      expect(w.configuration.base_url).to eq(uri)
+      w.process
+      expect(Hijack::OutputDrivers::Radiant::Page.count).to be > expected_min_n_of_pages, "page count: #{Hijack::OutputDrivers::Radiant::Page.count} <= #{expected_min_n_of_pages}"
     end
   end
 

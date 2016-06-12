@@ -1,6 +1,3 @@
-require 'arel'
-require 'active_support/core_ext/date_time'
-
 module Hijack
 
   module OutputDrivers
@@ -17,48 +14,35 @@ module Hijack
 
       class Page < Base
 
+        validates :title, presence: true
+
         has_many :page_parts
         has_many :page_fields
 
-        before_validation :set_fallback_backdrop
+        CONDITIONAL_FALLBACK_OPTIONS = HashWithIndifferentAccess.new(
+           title: 'No Title', slug: '/', breadcrumb: 'No Title', class_name: '', parent_id: nil,
+        )
 
-#       attr_accessor :title, :slug, :breadcrumb, :class_name, :status_id, :parent_id, :layout_id,
-#                     :created_at, :updated_at, :published_at,
-#                     :created_by_id, :updated_by_id,
-#                     :virtual, :lock_version, :allowed_children_cache
-#       attr_reader   :arel_table, :arel_manager
-
-        FALLBACK_OPTIONS =
-        {
-           hijacked_page: nil,
-           title: 'No Title', slug: '/', breadcrumb: 'No Title', class_name: '', status_id: 100,
-           parent_id: nil, layout_id: 2, created_by_id: 1, updated_by_id: nil, virtual: 'f', lock_version: 0,
+        MANDATORY_SETUP_OPTIONS = HashWithIndifferentAccess.new(
+           status_id: 100, layout_id: 2, created_by_id: 1, updated_by_id: nil, virtual: false, lock_version: 0,
            allowed_children_cache: 'Page,ArchiveDayIndexPage,ArchiveMonthIndexPage,ArchivePage,ArchiveYearIndexPage,EnvDumpPage,FileNotFoundPage,JavascriptPage,StylesheetPage',
-        }
+        )
 
-
-
-        def initialize(options = {})
-          opts = FALLBACK_OPTIONS
-          opts.update(options)
-          super(opts)
-        end
-
-        def prepare_sql_array(arel_table)
-          sql_array = []
-          @properties['title'] = @properties['breadcrumb'] = self.hijacked_page.title
-          @properties['slug'] = self.hijacked_page.title.downcase.gsub(/\W+/, '-')
-          @properties.each { |k, v| sql_array << [ arel_table[k], v ] }
-          sql_array
-        end
 
       private
 
-        def initialize_properties(attrs)
+        def set_fallback_backdrop
+          CONDITIONAL_FALLBACK_OPTIONS.each { |k, v| write_attribute(k, v) if read_attribute(k).blank? }
+          MANDATORY_SETUP_OPTIONS.each { |k, v| write_attribute(k, v) }
+        end
+
+        def condition_attributes
+          set_fallback_backdrop
           super
-          now = Time.now.to_s(:db)
-          @properties['created_at'] = @properties['updated_at'] = @properties['published_at'] = now
-          @properties
+          write_attribute('breadcrumb', read_attribute('title'))
+          write_attribute('slug', read_attribute('title').downcase.gsub(/\W+/, '-'))
+          now = Time.now
+          ['created_at', 'updated_at', 'published_at'].each { |k| write_attribute(k, now) }
         end
 
       end

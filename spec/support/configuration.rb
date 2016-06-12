@@ -41,6 +41,20 @@ module RSpec
         end
       end
 
+      def create_radiant_configuration(url, root)
+        create_configuration(url) do
+          |conffh, uurl|
+          conffh.write <<-EOF
+            Hijack::Config.configure do
+              |conf|
+              conf.driver = Hijack::OutputDrivers::Radiant::Driver.new
+              conf.base_url = '#{uurl}'
+              conf.root_url = '#{root}'
+            end
+          EOF
+        end
+      end
+
     private
 
       def create_configuration(url = Hijack::Configuration::DEFAULT_CONFIGURATION_PARAMETERS[:base_url])

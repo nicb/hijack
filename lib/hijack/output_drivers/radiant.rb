@@ -9,5 +9,5 @@ end
 %w(
   base
   page
-  sqlite/driver
+  driver
 ).each { |f| require File.join(Hijack::OutputDrivers::Radiant::PATH, f) }
