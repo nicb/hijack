@@ -51,8 +51,10 @@ namespace :db do
     # DatabaseTasks.load_seed
   end
 
+  desc 'reset the database completely'
+  task reset: [ :environment, :drop, :create, :load_schema, :seed ]
+
   desc 'rebuild database from scratch'
-  task rebuild: [ :environment, :drop, :create, :load_schema, :seed ] do
-  end
+  task rebuild: [ :reset ]
 
 end
