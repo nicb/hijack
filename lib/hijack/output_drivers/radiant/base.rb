@@ -47,7 +47,6 @@ module Hijack
         def ready?
           res = false
           MAX_READY_ITERATIONS.times do
-            |n|
             if persisted?
               res = true
               break

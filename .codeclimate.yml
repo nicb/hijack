@@ -14,8 +14,6 @@ engines:
       languages:
       - ruby
       - javascript
-      - python
-      - php
   eslint:
     enabled: true
   fixme:
@@ -35,11 +33,10 @@ ratings:
   - "**.inc"
   - "**.js"
   - "**.jsx"
-  - "**.module"
-  - "**.php"
-  - "**.py"
 exclude_paths:
 - config/**/*
 - db/**/*
-- test/**/*
+- spec/**/*
 - vendor/**/*
+- tmp/**/*
+- log/**/*

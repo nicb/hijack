@@ -11,5 +11,6 @@ end
   page
   page_part
   page_field
+  page_methods
   driver
 ).each { |f| require File.join(Hijack::OutputDrivers::Radiant::PATH, f) }

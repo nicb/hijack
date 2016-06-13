@@ -48,7 +48,7 @@ module Hijack
       end
 
       def relative?(uri)
-        (rest, base) = strip(uri)
+        (_rest, base) = strip(uri)
         base.empty?
       end
 
