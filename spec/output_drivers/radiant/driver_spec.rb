@@ -19,6 +19,7 @@ describe Hijack::OutputDrivers::Radiant::Driver do
   end
 
   it 'creates radiant pages along with all its satellite records' do
+    clear_pages_and_satellites
     require_relative File.join(['..'] * 3, 'config', 'configuration')
     expect((Hijack::OutputDrivers::Radiant::Driver.new).class).to be(Hijack::OutputDrivers::Radiant::Driver)
     expect((page = Hijack::Page.new(@scelsi_url, @scelsi_base)).class).to be(Hijack::Page)
@@ -32,6 +33,12 @@ describe Hijack::OutputDrivers::Radiant::Driver do
     expect(rp.page_parts(true).count).to eq(@num_of_page_parts)
     expect(rp.page_fields(true).count).to eq(@num_of_page_parts)
     expect(rp.page_parts.where('name = ?', 'body').first.content).to eq(page.content)
+  end
+
+private
+
+  def clear_pages_and_satellites
+    [Hijack::OutputDrivers::Radiant::Page, Hijack::OutputDrivers::Radiant::PagePart, Hijack::OutputDrivers::Radiant::PageField].each { |k| k.destroy_all }
   end
 
 end
