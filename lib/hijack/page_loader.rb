@@ -1,7 +1,7 @@
 module Hijack
 
   class PageLoader
-    attr_reader :base_path, :root, :pages, :visited_links
+    attr_reader :base_path, :root, :pages
 
     def initialize(r = 'index.html', b = 'http://www.example.com')
       @base_path = b
@@ -42,7 +42,8 @@ module Hijack
             np.linked_from << p
             self.pages << np
             break if enough?(limit)
-            inner_suck(np, limit)
+            new_limit = limit ? limit - self.pages.size : nil
+            inner_suck(np, new_limit)
           end
         rescue OpenURI::HTTPError, URI::InvalidURIError => e
           Hijack::Log.warn(l + ': ' + e.message)

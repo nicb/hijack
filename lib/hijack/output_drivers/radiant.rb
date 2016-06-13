@@ -9,5 +9,7 @@ end
 %w(
   base
   page
+  page_part
+  page_field
   driver
 ).each { |f| require File.join(Hijack::OutputDrivers::Radiant::PATH, f) }

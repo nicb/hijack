@@ -32,7 +32,7 @@ describe Hijack::PageLoader do
       expect(pl.pages.empty?).to be(true)
       pl.suck(limit)
       expect(pl.pages.empty?).to be(false)
-      expect(pl.pages.size).to be >= limit
+      expect(pl.pages.size).to be == limit, "#{pl.pages.size} != #{limit}"
     end
   end
 
