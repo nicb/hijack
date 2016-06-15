@@ -8,6 +8,8 @@ describe Hijack::Page do
        'http://www.scelsi.it' => 'Fondazione Isabella Scelsi',
        'https://www.w3.org' => 'World Wide Web Consortium (W3C)',
     }
+    @f_base = 'http://www.scelsi.it'
+    @f_page = 'archivio_attivita.php'
   end
 
   it 'can open remote URIs' do
@@ -54,6 +56,26 @@ describe Hijack::Page do
       expect(c2).to eq(c)
       expect(checksums.include?(c2)).to be(true)
     end
+  end
+
+  it 'returns the images tags to images' do
+    load_configuration
+    expect((p = Hijack::Page.new(@f_page, @f_base)).class).to be(Hijack::Page)
+    expect(p.image_tags.size).to eq(1)
+    p.image_tags.each { |it| expect(it.to_html).to match(/<img.*src=.*>/) }
+  end
+
+  it 'returns the links to other pages' do
+    load_configuration
+    expect((p = Hijack::Page.new(@f_page, @f_base)).class).to be(Hijack::Page)
+    expect(p.link_tags.size).to eq(1)
+    p.link_tags.each { |lt| expect(lt.to_html).to match(/<a.*href=.*\/a>/) }
+  end
+
+private
+
+  def load_configuration
+    require File.join(Hijack::ROOT_DIR, 'config', 'configuration')
   end
 
 end

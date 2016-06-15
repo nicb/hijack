@@ -46,13 +46,21 @@ module Hijack
     end
 
     #
-    # +images+
+    # +image_tags+
     #
-    # it returns the images of the current page (simply delegating `Nokogiri` to do
-    # it)
+    # it returns the Nokogiri structures that contain images in the current page
     #
-    def images
-      self.html_content.css(Hijack::Config.image_tags).map { |i| i.children.first.attributes['src'].value }
+    def image_tags
+      self.html_content.css(Hijack::Config.content_tag).css(Hijack::Config.image_tags)
+    end
+
+    #
+    # +link_tags+
+    #
+    # it returns the Nokogiri structures that contain links in the current page
+    #
+    def link_tags
+      self.html_content.css(Hijack::Config.content_tag).css(Hijack::Config.link_tags)
     end
 
     #

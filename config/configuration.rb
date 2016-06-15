@@ -27,7 +27,11 @@ Hijack::Config.configure do
   #
   # +image_tags+ set the tag(s) which should return image links
   #
-  conf.image_tags = "#{conf.content_tag}>div.uk-thumbnail"
+  conf.image_tags = 'img'
+  #
+  # +link_tags+ set the tag(s) which should return links
+  #
+  conf.link_tags = 'a'
   #
   # +driver+
   #

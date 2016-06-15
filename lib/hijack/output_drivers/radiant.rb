@@ -7,6 +7,7 @@ module Hijack
 end
 
 %w(
+  extensions
   base
   page
   page_part

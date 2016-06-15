@@ -5,7 +5,7 @@ module Hijack
   # a single instance pre-declared here
   #
   class Configuration
-    attr_accessor :base_url, :root_url, :driver, :title_tag, :content_tag, :image_tags
+    attr_accessor :base_url, :root_url, :driver, :title_tag, :content_tag, :image_tags, :link_tags
 
     private_class_method :new
 
@@ -17,6 +17,7 @@ module Hijack
        :title_tag => 'div.title',
        :content_tag => 'div.content',
        :image_tags => 'img',
+       :link_tags => 'a',
     }
 
     def initialize
