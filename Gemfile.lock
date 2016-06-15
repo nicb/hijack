@@ -3,6 +3,7 @@ PATH
   specs:
     hijack (0.1.0)
       activerecord (~> 4.2.6)
+      htmlentities
       nokogiri
 
 GEM
@@ -29,6 +30,7 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.5)
     forgery (0.6.0)
+    htmlentities (4.3.4)
     i18n (0.7.0)
     json (1.8.3)
     mini_portile2 (2.1.0)

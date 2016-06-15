@@ -1,5 +1,5 @@
 require 'nokogiri'
-require 'erb'
+require 'htmlentities'
 
 module Hijack
 
@@ -10,6 +10,8 @@ module Hijack
       module Extensions
 
         module Nokogiri
+
+          HTML_ENCODER = HTMLEntities.new
 
           def to_radiant
             rdizer = Radiantizer.select(self)
@@ -139,7 +141,7 @@ module Hijack
           private
 
             def _radiantize
-              self.accu << h(self.element.text)
+              self.accu << HTML_ENCODER.encode(self.element.text, :named)
             end
 
           end

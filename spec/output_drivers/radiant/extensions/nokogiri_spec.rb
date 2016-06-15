@@ -22,10 +22,11 @@ describe 'Hijack::OutputDrivers::Radiant::Extensions::Nokogiri' do
     tag_matches = [ '<r:assets:image', '<r:link', '<div', '<h1', '<p' ]
     text_matches =
     [
-      'Archivio Scelsi conserva il lascito artistico e culturale del Maestro e raccoglie documenti',
+      'L&rsquo;Archivio Scelsi conserva il lascito artistico e culturale del Maestro e raccoglie documenti',
       'Direzione Generale per gli Archivi;',
       'Giancarlo Schiaffini',
       'VISUALIZZA L',
+      'il ciclo di incontri &quot;Appunti d&rsquo;Archivio&quot;, a cura di Alessandra Carlotta Pellegrini',
     ]
     tag_matches.each { |m| expect(@page.html_content.css(Hijack::Config.content_tag).to_radiant).to match(/#{m}/), "\"#{m}\" does not match" }
     text_matches.each { |m| expect(@page.html_content.css(Hijack::Config.content_tag).to_radiant).to match(/#{m}/), "\"#{m}\" does not match" }
