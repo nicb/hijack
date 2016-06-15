@@ -39,10 +39,12 @@ module Hijack
     # +content+
     #
     # it returns the content of the current page (simply delegating `Nokogiri` to do
-    # it)
+    # it) as a Nokogiri::XML::NodeSet. This will exclude the outer +div+
+    # decoration
     #
     def content
-      self.html_content.css(Hijack::Config.content_tag).to_html
+      res = self.html_content.css(Hijack::Config.content_tag)
+      res.children
     end
 
     #

@@ -32,7 +32,7 @@ describe Hijack::OutputDrivers::Radiant::Driver do
     expect(rp.valid?).to be(true), rp.errors.full_messages.join(', ')
     expect(rp.page_parts(true).count).to eq(@num_of_page_parts)
     expect(rp.page_fields(true).count).to eq(@num_of_page_parts)
-    expect(rp.page_parts.where('name = ?', 'body').first.content).to eq(page.content)
+    expect(rp.page_parts.where('name = ?', 'body').first.content).to eq(page.content.to_radiant)
   end
 
   it 'creates radiant pages starting from the Hijack::OutputDrivers::Radiant::Driver::PAGES_INDEX_START index number' do

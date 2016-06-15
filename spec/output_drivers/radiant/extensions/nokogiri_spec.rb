@@ -28,8 +28,8 @@ describe 'Hijack::OutputDrivers::Radiant::Extensions::Nokogiri' do
       'VISUALIZZA L',
       'il ciclo di incontri &quot;Appunti d&rsquo;Archivio&quot;, a cura di Alessandra Carlotta Pellegrini',
     ]
-    tag_matches.each { |m| expect(@page.html_content.css(Hijack::Config.content_tag).to_radiant).to match(/#{m}/), "\"#{m}\" does not match" }
-    text_matches.each { |m| expect(@page.html_content.css(Hijack::Config.content_tag).to_radiant).to match(/#{m}/), "\"#{m}\" does not match" }
+    tag_matches.each { |m| expect(@page.conditioned_content).to match(/#{m}/), "\"#{m}\" does not match" }
+    text_matches.each { |m| expect(@page.conditioned_content).to match(/#{m}/), "\"#{m}\" does not match" }
   end
 
 end

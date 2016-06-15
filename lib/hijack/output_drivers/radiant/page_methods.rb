@@ -17,14 +17,17 @@ module Hijack
         # extract image names from the images present on page
         #
         def image_names
-          self.images.map { |i| i.sub(/http.*images\/[0-9]*_/, '').sub(/\....\Z/, '') }
+          self.images.map { |i| i.radiantize }
         end
+
         #
         # +conditioned_content+
         #
+        # it skips the first enveloping Nokogiri element and
         # transforms links and images in appropriate +radius+ tags
+        #
         def conditioned_content
-          self.content
+          self.content.to_radiant
         end
 
         #

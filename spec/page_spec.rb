@@ -72,6 +72,12 @@ describe Hijack::Page do
     p.link_tags.each { |lt| expect(lt.to_html).to match(/<a.*href=.*\/a>/) }
   end
 
+  it 'returns the content as Nokogiri::XML::NodeSet' do
+    load_configuration
+    expect((p = Hijack::Page.new(@f_page, @f_base)).class).to be(Hijack::Page)
+    expect(p.content.class).to be(Nokogiri::XML::NodeSet)
+  end
+
 private
 
   def load_configuration
