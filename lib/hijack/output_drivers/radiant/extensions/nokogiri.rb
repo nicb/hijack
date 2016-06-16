@@ -71,6 +71,7 @@ module Hijack
                   when 'a'   then LinkRadiantizer.new(el)
                   when 'text' then TextRadiantizer.new(el)
                   when 'br' then BreakRadiantizer.new(el)
+                  when 'h1' then TitleRadiantizer.new(el)
                   else PassThroughRadiantizer.new(el)
                 end
                 res
@@ -134,9 +135,31 @@ module Hijack
 
           end
 
-          class TextRadiantizer < RawRadiantizer
+          class TitleRadiantizer < Radiantizer
 
-            include ERB::Util
+             def initialize(el)
+               super
+               self.tag = 'h1'
+             end
+
+          private
+
+            def delete_special_key
+              self.element.attributes
+            end
+
+            def init_accumulator
+               self.accu << "<#{self.tag} "
+            end
+
+            def extend_to_children
+              # replaces text with radius tag
+              self.accu << '<r:title />'
+            end
+
+          end
+
+          class TextRadiantizer < RawRadiantizer
 
           private
 

@@ -19,7 +19,7 @@ describe 'Hijack::OutputDrivers::Radiant::Extensions::Nokogiri' do
   end
 
   it 'can convert a full document to radiant (with radiant tags)' do
-    tag_matches = [ '<r:assets:image', '<r:link', '<div', '<h1', '<p' ]
+    tag_matches = [ '<r:assets:image', '<r:link', '<r:title', '<div', '<h1', '<p' ]
     text_matches =
     [
       'L&rsquo;Archivio Scelsi conserva il lascito artistico e culturale del Maestro e raccoglie documenti',
@@ -28,8 +28,10 @@ describe 'Hijack::OutputDrivers::Radiant::Extensions::Nokogiri' do
       'VISUALIZZA L',
       'il ciclo di incontri &quot;Appunti d&rsquo;Archivio&quot;, a cura di Alessandra Carlotta Pellegrini',
     ]
+    text_not_matches = { 'Attivit&agrave;' => 0..200 }
     tag_matches.each { |m| expect(@page.conditioned_content).to match(/#{m}/), "\"#{m}\" does not match" }
     text_matches.each { |m| expect(@page.conditioned_content).to match(/#{m}/), "\"#{m}\" does not match" }
+    text_not_matches.each { |m, r| expect(@page.conditioned_content[r]).not_to match(/#{m}/), "\"#{m}\" does match (and should not) in the range #{r}" }
   end
 
 end
