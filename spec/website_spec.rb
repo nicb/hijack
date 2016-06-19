@@ -28,7 +28,7 @@ describe Hijack::Website do
       expect((w = Hijack::Website.new(tmpfile)).class).to be(Hijack::Website)
       expect(w.configuration_file).to eq(tmpfile)
       expect(w.configuration).to eq(Hijack::Config)
-      expect(w.configuration.base_url).to eq(Hijack::Configuration::DEFAULT_CONFIGURATION_PARAMETERS[:base_url])
+      expect(w.configuration.base_url).to eq(Hijack::DEFAULT_CONFIGURATION_PARAMETERS[:base_url])
     end
   end
 

@@ -11,7 +11,7 @@ describe Hijack::Configuration do
   end
 
   it 'has default parameters' do
-    Hijack::Configuration::DEFAULT_CONFIGURATION_PARAMETERS.each do
+    Hijack::DEFAULT_CONFIGURATION_PARAMETERS.each do
       |k, v|
       expect(Hijack::Config.respond_to?(k)).to be(true)
       expect(Hijack::Config.send(k)).to eq(v)
@@ -19,7 +19,7 @@ describe Hijack::Configuration do
   end
 
   it 'can set parameters' do
-    Hijack::Configuration::DEFAULT_CONFIGURATION_PARAMETERS.each do
+    Hijack::DEFAULT_CONFIGURATION_PARAMETERS.each do
       |k, v|
       write_method = k.to_s + '='
       expect(Hijack::Config.respond_to?(write_method)).to be(true)
@@ -31,7 +31,7 @@ describe Hijack::Configuration do
 
   it 'can work as a configuration dsl' do
     new_config = {}
-    Hijack::Configuration::DEFAULT_CONFIGURATION_PARAMETERS.keys.each do
+    Hijack::DEFAULT_CONFIGURATION_PARAMETERS.keys.each do
       |k|
       new_config.update(k => Forgery(:basic).text)
     end

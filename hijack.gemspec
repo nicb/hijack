@@ -32,4 +32,13 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'nokogiri'
   spec.add_dependency 'activerecord', '~> 4.2.6'
   spec.add_dependency 'htmlentities'
+
+  #
+  # these are needed for paperclip functionalities in the Radiant driver
+  #
+  spec.add_dependency "acts_as_list", "0.1.4"
+  spec.add_dependency "paperclip",    "~> 2.7.0"
+  spec.add_dependency "uuidtools",    "~> 2.1.2"
+  spec.add_dependency "cocaine",      "~> 0.3.2"
+
 end

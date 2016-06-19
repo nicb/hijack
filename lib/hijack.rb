@@ -4,8 +4,8 @@ require 'hijack/constants'
 %w(
   helpers
   hijack_logger
-  output_drivers
   configuration
+  output_drivers
   page
   page_loader
   website

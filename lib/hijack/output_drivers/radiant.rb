@@ -8,10 +8,14 @@ end
 
 %w(
   extensions
+  configuration
   base
   page
   page_part
   page_field
   page_methods
+  page_attachment
+  asset
+  asset_type
   driver
 ).each { |f| require File.join(Hijack::OutputDrivers::Radiant::PATH, f) }

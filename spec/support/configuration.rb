@@ -57,8 +57,8 @@ module RSpec
 
     private
 
-      def create_configuration(url = Hijack::Configuration::DEFAULT_CONFIGURATION_PARAMETERS[:base_url])
-        Hijack::Config.send(:load_defaults)
+      def create_configuration(url = Hijack::DEFAULT_CONFIGURATION_PARAMETERS[:base_url])
+        Hijack::Config.send(:load_defaults, Hijack::DEFAULT_CONFIGURATION_PARAMETERS)
         conff = Tempfile.new('conf', Hijack::TMPDIR)
         yield(conff, url)
         conff.flush

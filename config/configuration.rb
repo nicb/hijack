@@ -35,7 +35,11 @@ Hijack::Config.configure do
   #
   # +driver+
   #
+  # may be:
+  #
+  # * ascii (ascii driver that prints out what it reads)
+  # * radiant (a driver that arranges everything as radiant structures)
+  #
   conf.driver = Hijack::OutputDrivers::Radiant::Driver.new
 
 end
-
