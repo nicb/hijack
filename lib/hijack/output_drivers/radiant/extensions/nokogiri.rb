@@ -114,7 +114,7 @@ module Hijack
 
              def initialize(el)
                super
-               self.tag = 'r:assets:image'
+               self.tag = 'r:asset:image'
                self.orig_key = 'img'
                self.special_key = 'src'
                specialize

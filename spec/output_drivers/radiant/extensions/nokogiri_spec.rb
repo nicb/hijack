@@ -19,7 +19,7 @@ describe 'Hijack::OutputDrivers::Radiant::Extensions::Nokogiri' do
   end
 
   it 'can convert a full document to radiant (with radiant tags)' do
-    tag_matches = [ '<r:assets:image', '<r:link', '<r:title', '<div', '<h1', '<p' ]
+    tag_matches = [ '<r:asset:image', '<r:link', '<r:title', '<div', '<h1', '<p' ]
     text_matches =
     [
       'L&rsquo;Archivio Scelsi conserva il lascito artistico e culturale del Maestro e raccoglie documenti',
